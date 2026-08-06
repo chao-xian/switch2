@@ -23,6 +23,37 @@ RSpec.describe "Games" do
     end
   end
 
+  describe "GET /games/:id/edit" do
+    it "renders the edit form" do
+      game = create(:game, name: "A Short Hike")
+
+      get edit_game_path(game)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("A Short Hike")
+    end
+  end
+
+  describe "PATCH /games/:id" do
+    it "updates the game and redirects to it" do
+      game = create(:game, name: "Old Name")
+
+      patch game_path(game), params: { game: { name: "New Name" } }
+
+      expect(response).to redirect_to(game_path(game))
+      expect(game.reload.name).to eq("New Name")
+    end
+
+    it "re-renders the edit form when invalid" do
+      game = create(:game)
+
+      patch game_path(game), params: { game: { name: "" } }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(game.reload.name).not_to eq("")
+    end
+  end
+
   describe "POST /games/:id/check_compatibility" do
     it "queues a compatibility check job" do
       game = create(:game)
