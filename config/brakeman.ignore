@@ -1,0 +1,28 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "c365f15d80bce7ac7a90a460b550259f9d14b40d1c6af94cb56c931f18697665",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/games/show.html.erb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"View on DekuDeals\", Game.find(params[:id]).link)",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "games/show"
+      },
+      "user_input": "Game.find(params[:id]).link",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "Game#link is validated with Game::LINK_FORMAT to only accept http(s) URLs (see app/models/game.rb), so javascript:/data: schemes can't be stored. Brakeman can't see model validations, hence the false positive."
+    }
+  ],
+  "updated": "2026-08-06 16:45:00 +0100",
+  "brakeman_version": "8.0.5"
+}
