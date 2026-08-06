@@ -1,0 +1,13 @@
+<h1><%= @game.name %></h1>
+
+<ul>
+  <li>Platform: <%= @game.platform %></li>
+  <li>Format: <%= @game.format || "unknown" %></li>
+  <li>Rating: <%= @game.rating || "unrated" %></li>
+  <li>Switch 2 compatible: <%= @game.compatible? ? "Yes" : "Unknown" %></li>
+  <li><%= link_to "View on DekuDeals", @game.link %></li>
+</ul>
+
+<%= button_to "Check Switch 2 compatibility", check_compatibility_game_path(@game) %>
+
+<%= link_to "Back to all games", games_path %>

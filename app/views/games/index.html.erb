@@ -1,0 +1,22 @@
+<h1>Games (<%= @games.count %>)</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Platform</th>
+      <th>Format</th>
+      <th>Switch 2 compatible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @games.each do |game| %>
+      <tr>
+        <td><%= link_to game.name, game %></td>
+        <td><%= game.platform %></td>
+        <td><%= game.format %></td>
+        <td><%= game.compatible? ? "Yes" : "Unknown" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
