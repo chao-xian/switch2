@@ -16,26 +16,39 @@ end
 
 pp "You have #{games.length} games."
 
-base_uri = "https://switch-software-compatibility.nintendo.com/en-GB/search?q="
+base_uri = "https://switch-software-compatibility.nintendo.com/"
+search_path = "/en-GB/search?q="
 
-i = 0
-
-games.each do |game|
-  q = CGI.escape(game.name)
-  result =  HTTParty.get("#{base_uri}#{q}")
-  doc = Nokogiri::HTML(result.body)
-
-  if doc.xpath('//a[contains(@href, "/en-GB/details")]')
-    i += 1
-    game.compatible = true
-    pp "#{game.name}: #{game.compatible}"
-  end
-
-  # goto the details page
-  # check that the word supported exists
-  # AND the word UNSUPPORTED isn't on the page
-  # example "A Long Way Down" is unsupported
-
+game = games.first
+q = CGI.escape(game.name)
+result =  HTTParty.get("#{base_uri}#{search_path}#{q}")
+doc = Nokogiri::HTML(result.body)
+link = doc.xpath('//a[contains(@href, "/en-GB/details")]')
+pp link[0].values.last
+result_page = HTTParty.get("#{base_uri}#{link[0]['href']}")
+page = Nokogiri::HTML(result_page.body)
+page.css('span:contains("Supported")').map do
+  |link| pp link
 end
 
-pp "#{i} games are compatible"
+
+# i = 0
+#
+# games.each do |game|
+#   q = CGI.escape(game.name)
+#   result =  HTTParty.get("#{base_uri}#{q}")
+#   doc = Nokogiri::HTML(result.body)
+#
+#   if doc.xpath('//a[contains(@href, "/en-GB/details")]')
+#     i += 1
+#     game.compatible = true
+#     pp "#{game.name}: #{game.compatible}"
+#   end
+#
+#   # goto the details page
+#   # check that the word supported exists
+#   # AND the word UNSUPPORTED isn't on the page
+#   # example "A Long Way Down" is unsupported
+# end
+
+# pp "#{i} games are compatible"
