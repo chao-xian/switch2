@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_06_145028) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_06_145028) do
   create_table "games", force: :cascade do |t|
-    t.string "name"
-    t.string "link"
     t.datetime "added_at"
-    t.string "format"
-    t.integer "rating"
-    t.string "platform"
     t.boolean "compatible", default: false, null: false
     t.datetime "created_at", null: false
+    t.string "format"
+    t.string "link"
+    t.string "name"
+    t.string "platform"
+    t.integer "rating"
     t.datetime "updated_at", null: false
     t.index ["link"], name: "index_games_on_link", unique: true
   end
