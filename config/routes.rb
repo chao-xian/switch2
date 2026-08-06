@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     member do
       post :check_compatibility
     end
+
+    collection do
+      post :check_all_compatibility
+    end
   end
 
   # Defines the root path route ("/")

@@ -33,4 +33,16 @@ RSpec.describe "Games" do
       expect(response).to redirect_to(game_path(game))
     end
   end
+
+  describe "POST /games/check_compatibility" do
+    it "queues a compatibility check job for every game" do
+      games = create_list(:game, 2)
+
+      expect { post check_all_compatibility_games_path }
+        .to have_enqueued_job(CheckCompatibilityJob).with(games.first)
+        .and have_enqueued_job(CheckCompatibilityJob).with(games.second)
+
+      expect(response).to redirect_to(games_path)
+    end
+  end
 end

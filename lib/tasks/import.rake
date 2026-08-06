@@ -11,13 +11,4 @@ namespace :games do
 
     puts "Imported #{Game.count} games."
   end
-
-  desc "Queue a Switch 2 compatibility check for every game"
-  task check_compatibility: :environment do
-    Game.find_each do |game|
-      CheckCompatibilityJob.perform_later(game)
-    end
-
-    puts "Queued compatibility checks for #{Game.count} games."
-  end
 end
